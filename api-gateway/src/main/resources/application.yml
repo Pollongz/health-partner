@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: patient-service
+            uri: lb://patient-service
+            predicates:
+              - Path=/api/*/patients/**
+          - id: appointment-service
+            uri: lb://appointment-service
+            predicates:
+              - Path=/api/*/appointments/**
+          - id: booking-service
+            uri: lb://booking-service
+            predicates:
+              - Path=/api/*/bookings/**
+          - id: discovery-server
+            uri: http://localhost:8761
+            predicates:
+              - Path=/eureka/web
+            filters:
+              - SetPath=/
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: TRACE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

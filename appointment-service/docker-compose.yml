@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  database-appointment:
+    container_name: postgresdb-appointment-service
+    image: postgres:16.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=appointment-service
+      - PGDATA=/data/appointment-service
+    ports:
+      - "5431:5432"
+    volumes:
+      - database-appointment:/var/lib/postgresql/data
+volumes:
+  database-appointment:
+  pgadmin-data:
+
+#    host.docker.internal to connect in pgadmin

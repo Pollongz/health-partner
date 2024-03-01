@@ -1,0 +1,20 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: booking-service
+  data:
+    mongodb:
+      uri: mongodb://root:pass@localhost:27017/booking-service
+      auto-index-creation: true
+      database: booking-service
+      username: root
+      password: pass
+
+eureka:
+  instance:
+    appname: booking-service
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

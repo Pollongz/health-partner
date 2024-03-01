@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  database-patient:
+    container_name: postgresdb-patient-service
+    image: postgres:16.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=patient-service
+      - PGDATA=/data/patient-service
+    ports:
+      - "5434:5432"
+    volumes:
+      - database-patient:/var/lib/postgresql/data
+volumes:
+  database-patient:
+  pgadmin-data:
+
+#    host.docker.internal to connect in pgadmin

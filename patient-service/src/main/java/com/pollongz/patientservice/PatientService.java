@@ -1,8 +1,6 @@
-package com.pollongz.patientservice.application;
+package com.pollongz.patientservice;
 
 import com.pollongz.patientservice.exception.PatientNotFoundException;
-import com.pollongz.patientservice.model.Patient;
-import com.pollongz.patientservice.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +10,15 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PatientService {
+class PatientService {
 
     private final PatientRepository patientRepository;
 
-    public List<Patient> getAllPatients() {
+    List<Patient> getAllPatients() {
         return patientRepository.findAll();
     }
 
-    public Patient getPatientById(long id) {
+    Patient getPatientById(long id) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isEmpty()) {
             throw new PatientNotFoundException("No patient with id " + id + " in the database.");
@@ -28,11 +26,11 @@ public class PatientService {
         return patient.get();
     }
 
-    public Patient createPatient(Patient patient) {
+    Patient createPatient(Patient patient) {
         return patientRepository.save(patient);
     }
 
-    public Patient updatePatient(long id, Patient updatedPatient) {
+    Patient updatePatient(long id, Patient updatedPatient) {
         Optional<Patient> patient = patientRepository.findById(id);
         if (patient.isPresent() && patient.get().getId() == id) {
             updatedPatient.setId(id);
@@ -41,16 +39,16 @@ public class PatientService {
         return updatedPatient;
     }
 
-    public void deletePatient(long id) {
+    void deletePatient(long id) {
         patientRepository.deleteById(id);
     }
 
-    public void increaseAbsenceCounter(long id) {
+    void increaseAbsenceCounter(long id) {
         patientRepository.findById(id)
                 .ifPresent(this::addAbsence);
     }
 
-    public void addAbsence(Patient patient) {
+    void addAbsence(Patient patient) {
         patient.setAbsenceCounter(patient.getAbsenceCounter() + 1);
         patient.setLastAbsenceDate(LocalDate.now());
         if (patient.getAbsenceCounter() > 2) {
@@ -62,18 +60,18 @@ public class PatientService {
         patient.setBlocked(true);
     }
 
-    public int getLastAbsencePeriod(long id) {
+    int getLastAbsencePeriod(long id) {
         return patientRepository.findById(id)
                 .map(this::checkLastAbsencePeriod)
                 .orElse(0);
     }
 
-    public void checkAndResetAbsenceCounter(long id) {
+    void checkAndResetAbsenceCounter(long id) {
         patientRepository.findById(id)
                 .ifPresent(this::resetAbsences);
     }
 
-    public boolean isPatientBlocked(long id) {
+    boolean isPatientBlocked(long id) {
         return patientRepository.findById(id)
                 .map(this::isPatientBlocked)
                 .orElse(false);
@@ -83,14 +81,14 @@ public class PatientService {
         return patient.isBlocked();
     }
 
-    public void resetAbsences(Patient patient) {
+    private void resetAbsences(Patient patient) {
         if (checkLastAbsencePeriod(patient) < 6) {
             patient.setAbsenceCounter(0);
             unblockPatient(patient);
         }
     }
 
-    public int checkLastAbsencePeriod(Patient patient) {
+    private int checkLastAbsencePeriod(Patient patient) {
         return LocalDate.now().getMonthValue() - patient.getLastAbsenceDate().getMonthValue();
     }
 

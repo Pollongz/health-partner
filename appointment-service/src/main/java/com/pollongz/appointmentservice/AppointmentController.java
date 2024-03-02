@@ -1,7 +1,5 @@
-package com.pollongz.appointmentservice.controller;
+package com.pollongz.appointmentservice;
 
-import com.pollongz.appointmentservice.application.AppointmentService;
-import com.pollongz.appointmentservice.model.Appointment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +10,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/appointments")
-public class AppointmentController {
+class AppointmentController {
 
     private final AppointmentService appointmentService;
 

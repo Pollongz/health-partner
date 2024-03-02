@@ -1,4 +1,4 @@
-package com.pollongz.patientservice.model;
+package com.pollongz.patientservice;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "patients")
-public class Patient {
+class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

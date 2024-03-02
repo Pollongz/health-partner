@@ -1,7 +1,5 @@
 package com.pollongz.appointmentservice;
 
-import com.pollongz.appointmentservice.model.Appointment;
-import com.pollongz.appointmentservice.repository.AppointmentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

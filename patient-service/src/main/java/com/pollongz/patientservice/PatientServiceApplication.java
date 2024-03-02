@@ -1,7 +1,5 @@
 package com.pollongz.patientservice;
 
-import com.pollongz.patientservice.model.Patient;
-import com.pollongz.patientservice.repository.PatientRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

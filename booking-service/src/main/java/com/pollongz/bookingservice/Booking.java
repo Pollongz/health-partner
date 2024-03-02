@@ -1,4 +1,4 @@
-package com.pollongz.bookingservice.model;
+package com.pollongz.bookingservice;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Document(collection = "bookings")
-public class Booking {
+class Booking {
 
     @Id
     private String id;

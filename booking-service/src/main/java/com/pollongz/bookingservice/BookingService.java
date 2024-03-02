@@ -1,7 +1,5 @@
-package com.pollongz.bookingservice.application;
+package com.pollongz.bookingservice;
 
-import com.pollongz.bookingservice.model.Booking;
-import com.pollongz.bookingservice.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +11,14 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class BookingService {
+class BookingService {
 
     private final WebClient.Builder webClientBuilder;
     private final BookingRepository bookingRepository;
 
     Logger LOG = LoggerFactory.getLogger(BookingService.class);
 
-    public void bookAppointment(Booking booking) {
+    void bookAppointment(Booking booking) {
         Mono<Boolean> isPatientBlockedMono =
                 isUserBlocked(booking.getPatientId());
         Mono<Boolean> isAppointmentAvailableMono =

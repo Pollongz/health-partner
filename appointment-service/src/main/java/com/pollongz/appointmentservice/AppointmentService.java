@@ -1,12 +1,9 @@
-package com.pollongz.appointmentservice.application;
+package com.pollongz.appointmentservice;
 
 import com.pollongz.appointmentservice.exception.AppointmentNotFoundException;
-import com.pollongz.appointmentservice.model.Appointment;
-import com.pollongz.appointmentservice.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +13,11 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
 
-    public List<Appointment> getAllAppointments() {
+    List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
 
-    public Appointment getAppointmentById(long id) {
+    Appointment getAppointmentById(long id) {
         Optional<Appointment> appointment = appointmentRepository.findById(id);
         if (appointment.isEmpty()) {
             throw new AppointmentNotFoundException("No appointment with id " + id + " in the database.");
@@ -28,11 +25,11 @@ public class AppointmentService {
         return appointment.get();
     }
 
-    public Appointment createAppointment(Appointment appointment) {
+    Appointment createAppointment(Appointment appointment) {
         return appointmentRepository.save(appointment);
     }
 
-    public boolean isAppointmentAvailable(long id) {
+    boolean isAppointmentAvailable(long id) {
         return appointmentRepository.findById(id)
                 .map(this::isAppointmentAvailable)
                 .orElse(false);
@@ -42,12 +39,12 @@ public class AppointmentService {
         return appointment.isAvailable();
     }
 
-    public void makeAppointmentUnavailable(long id) {
+    void makeAppointmentUnavailable(long id) {
         appointmentRepository.findById(id)
                 .ifPresent(this::makeAppointmentUnavailable);
     }
 
-    public void makeAppointmentUnavailable(Appointment appointment) {
+    private void makeAppointmentUnavailable(Appointment appointment) {
         appointment.setAvailable(false);
         appointmentRepository.save(appointment);
     }

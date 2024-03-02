@@ -1,8 +1,6 @@
-package com.pollongz.patientservice.application;
+package com.pollongz.patientservice;
 
 import com.pollongz.patientservice.exception.PatientNotFoundException;
-import com.pollongz.patientservice.model.Patient;
-import com.pollongz.patientservice.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -128,11 +126,11 @@ class PatientServiceTest {
 
         assertThat(patient).isPresent();
         assertThat(patient.get().getAbsenceCounter()).isEqualTo(2);
-        assertThat(patient.get().getIsBlocked()).isFalse();
+        assertThat(patient.get().isBlocked()).isFalse();
 
         patientService.addAbsence(patient.get());
 
         assertThat(patient.get().getAbsenceCounter()).isEqualTo(3);
-        assertThat(patient.get().getIsBlocked()).isTrue();
+        assertThat(patient.get().isBlocked()).isTrue();
     }
 }

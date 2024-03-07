@@ -13,9 +13,10 @@ import java.util.List;
 class AppointmentController {
 
     private final AppointmentService appointmentService;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping
-    public ResponseEntity<List<Appointment>> getAllAppoinntments() {
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
@@ -33,6 +34,12 @@ class AppointmentController {
     @PostMapping
     public ResponseEntity<Appointment> createAppointment(@RequestBody Appointment appointment) {
         Appointment createdAppointment = appointmentService.createAppointment(appointment);
+        String visitNotification = "NEW VISIT DATE AVAILABLE\n"
+                + "Specialization: " + createdAppointment.getSpecialization()
+                + "\nDate: " + createdAppointment.getVisitDate()
+                + "\nAddress: " + createdAppointment.getFacility()
+                + "\nVisit health-partner.com to book an appointment!";
+        kafkaProducer.sendMessage(visitNotification, createdAppointment.getSpecialization());
         return new ResponseEntity<>(createdAppointment, HttpStatus.CREATED);
     }
 

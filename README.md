@@ -16,9 +16,12 @@ Health partner - version 1.0.0 - MVP
 
 - Every call is done trough api gateway on port 8080
 
+- Appointment service is notifying clients about new appointment dates
+
 
 Technologies used so far:
 
 - Webflux
 - Eureka
 - Cloud gateway
+- Kafka
